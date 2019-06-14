@@ -1,6 +1,8 @@
 #ifndef _BASETYPS_H
 #define _BASETYPS_H
 
+#include "../Common/MyGuidDef.h"
+
 #ifdef ENV_HAVE_GCCVISIBILITYPATCH
   #define DLLEXPORT __attribute__ ((visibility("default")))
 #else
