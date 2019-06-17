@@ -109,7 +109,7 @@ HRESULT CHandler::SetMainMethod(
   const UInt64 kSolidBytes_Max = ((UInt64)1 << 32) - 1;
 
   bool needSolid = false;
-  
+
   FOR_VECTOR (i, methods)
   {
     COneMethodInfo &oneMethodInfo = methods[i];
@@ -138,7 +138,7 @@ HRESULT CHandler::SetMainMethod(
       case k_BZip2: dicSize = oneMethodInfo.Get_BZip2_BlockSize(); break;
       default: continue;
     }
-    
+
     _numSolidBytes = (UInt64)dicSize << 7;
     if (_numSolidBytes < kSolidBytes_Min) _numSolidBytes = kSolidBytes_Min;
     if (_numSolidBytes > kSolidBytes_Max) _numSolidBytes = kSolidBytes_Max;
@@ -282,7 +282,7 @@ STDMETHODIMP CHandler::UpdateItems(ISequentialOutStream *outStream, UInt32 numIt
   bool need_CTime = (Write_CTime.Def && Write_CTime.Val);
   bool need_ATime = (Write_ATime.Def && Write_ATime.Val);
   bool need_MTime = (Write_MTime.Def && Write_MTime.Val || !Write_MTime.Def);
-  
+
   if (db && !db->Files.IsEmpty())
   {
     if (!Write_CTime.Def) need_CTime = !db->CTime.Defs.IsEmpty();
@@ -322,7 +322,7 @@ STDMETHODIMP CHandler::UpdateItems(ISequentialOutStream *outStream, UInt32 numIt
       ui.Size = fi.Size;
       // isAltStream = fi.IsAltStream;
       ui.IsAnti = db->IsItemAnti(ui.IndexInArchive);
-      
+
       if (!ui.NewProps)
       {
         ui.CTimeDefined = db->CTime.GetItem(ui.IndexInArchive, ui.CTime);
@@ -347,7 +347,7 @@ STDMETHODIMP CHandler::UpdateItems(ISequentialOutStream *outStream, UInt32 numIt
           ui.AttribDefined = true;
         }
       }
-      
+
       // we need MTime to sort files.
       if (need_CTime) RINOK(GetTime(updateCallback, i, kpidCTime, ui.CTime, ui.CTimeDefined));
       if (need_ATime) RINOK(GetTime(updateCallback, i, kpidATime, ui.ATime, ui.ATimeDefined));
@@ -425,7 +425,7 @@ STDMETHODIMP CHandler::UpdateItems(ISequentialOutStream *outStream, UInt32 numIt
         ui.CTimeDefined = false;
         ui.ATimeDefined = false;
         ui.MTimeDefined = false;
-        
+
         ui.Size = 0;
       }
 
@@ -521,7 +521,7 @@ STDMETHODIMP CHandler::UpdateItems(ISequentialOutStream *outStream, UInt32 numIt
           return E_INVALIDARG;
       }
     }
-    
+
     updateItems.Add(ui);
   }
 
@@ -545,7 +545,7 @@ STDMETHODIMP CHandler::UpdateItems(ISequentialOutStream *outStream, UInt32 numIt
   RINOK(res);
 
   RINOK(SetHeaderMethod(headerMethod));
-  
+
   #ifndef _7ZIP_ST
   methodMode.NumThreads = _numThreads;
   methodMode.MultiThreadMixer = _useMultiThreadMixer;
@@ -615,7 +615,7 @@ STDMETHODIMP CHandler::UpdateItems(ISequentialOutStream *outStream, UInt32 numIt
   options.HeaderOptions.WriteATime = Write_ATime;
   options.HeaderOptions.WriteMTime = Write_MTime;
   */
-  
+
   options.NumSolidFiles = _numSolidFiles;
   options.NumSolidBytes = _numSolidBytes;
   options.SolidExtension = _solidExtension;
@@ -631,7 +631,7 @@ STDMETHODIMP CHandler::UpdateItems(ISequentialOutStream *outStream, UInt32 numIt
 
   CMyComPtr<ICryptoGetTextPassword> getPassword;
   updateCallback->QueryInterface(IID_ICryptoGetTextPassword, (void **)&getPassword);
-  
+
   /*
   if (secureBlocks.Sorted.Size() > 1)
   {
@@ -701,7 +701,7 @@ void COutHandler::InitProps()
   _encryptHeadersSpecified = false;
   _encryptHeaders = false;
   // _useParents = false;
-  
+
   Write_CTime.Init();
   Write_ATime.Init();
   Write_MTime.Init();
@@ -792,7 +792,7 @@ HRESULT COutHandler::SetProperty(const wchar_t *nameSpec, const PROPVARIANT &val
   name.MakeLower_Ascii();
   if (name.IsEmpty())
     return E_INVALIDARG;
-  
+
   if (name[0] == L's')
   {
     name.Delete(0);
@@ -802,7 +802,7 @@ HRESULT COutHandler::SetProperty(const wchar_t *nameSpec, const PROPVARIANT &val
       return E_INVALIDARG;
     return SetSolidFromString(name);
   }
-  
+
   UInt32 number;
   int index = ParseStringToUInt32(name, number);
   // UString realName = name.Ptr(index);
@@ -811,25 +811,25 @@ HRESULT COutHandler::SetProperty(const wchar_t *nameSpec, const PROPVARIANT &val
     if (name.IsEqualTo("rsfx")) return PROPVARIANT_to_bool(value, _removeSfxBlock);
     if (name.IsEqualTo("hc")) return PROPVARIANT_to_bool(value, _compressHeaders);
     // if (name.IsEqualToNoCase(L"HS")) return PROPVARIANT_to_bool(value, _useParents);
-    
+
     if (name.IsEqualTo("hcf"))
     {
       bool compressHeadersFull = true;
       RINOK(PROPVARIANT_to_bool(value, compressHeadersFull));
       return compressHeadersFull ? S_OK: E_INVALIDARG;
     }
-    
+
     if (name.IsEqualTo("he"))
     {
       RINOK(PROPVARIANT_to_bool(value, _encryptHeaders));
       _encryptHeadersSpecified = true;
       return S_OK;
     }
-    
+
     if (name.IsEqualTo("tc")) return PROPVARIANT_to_BoolPair(value, Write_CTime);
     if (name.IsEqualTo("ta")) return PROPVARIANT_to_BoolPair(value, Write_ATime);
     if (name.IsEqualTo("tm")) return PROPVARIANT_to_BoolPair(value, Write_MTime);
-    
+
     if (name.IsEqualTo("mtf")) return PROPVARIANT_to_bool(value, _useMultiThreadMixer);
 
     if (name.IsEqualTo("qs")) return PROPVARIANT_to_bool(value, _useTypeSorting);
@@ -859,7 +859,7 @@ STDMETHODIMP CHandler::SetProperties(const wchar_t * const *names, const PROPVAR
       if (value.vt != VT_EMPTY)
         return E_INVALIDARG;
       name.Delete(0);
-      
+
       CBond2 bond;
       RINOK(ParseBond(name, bond.OutCoder, bond.OutStream));
       if (name[0] != ':')
@@ -897,7 +897,7 @@ STDMETHODIMP CHandler::SetProperties(const wchar_t * const *names, const PROPVAR
     }
     _methods.DeleteFrontal(numEmptyMethods);
   }
-  
+
   FOR_VECTOR (k, _bonds)
   {
     const CBond2 &bond = _bonds[k];

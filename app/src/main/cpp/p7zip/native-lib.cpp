@@ -2,9 +2,8 @@
 
 
 #include "C/7zTypes.h"
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
+#include <cstdlib>
+#include <cstring>
 #include "android/log.h"
 
 #define LOG_ENABLE

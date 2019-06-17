@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">7Zip</string>
+
+    <string name="progress_title">title</string>
+    <string name="progress_message">message</string>
+    <string name="msg_ret_success">success</string>
+    <string name="msg_ret_warning">warning</string>
+    <string name="msg_ret_fault">fault</string>
+    <string name="msg_ret_command">command</string>
+    <string name="msg_ret_memmory">memmory</string>
+    <string name="msg_ret_user_stop">user_stop</string>
 </resources>

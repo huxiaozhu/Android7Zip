@@ -82,7 +82,8 @@ struct CExternalCodecs
 
 extern CExternalCodecs g_ExternalCodecs;
 
-#define EXTERNAL_CODECS_VARS2   (__externalCodecs.IsSet() ? &__externalCodecs : &g_ExternalCodecs)
+//#define EXTERNAL_CODECS_VARS2   (__externalCodecs.IsSet() ? &__externalCodecs : &g_ExternalCodecs)
+#define EXTERNAL_CODECS_VARS2   (&__externalCodecs)
 #define EXTERNAL_CODECS_VARS2_L (&__externalCodecs)
 #define EXTERNAL_CODECS_VARS2_G (&g_ExternalCodecs)
 
