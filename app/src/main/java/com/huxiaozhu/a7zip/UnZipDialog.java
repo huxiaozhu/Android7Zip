@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.xiaozhu.lib7zip.ZipUtils;
 
-public class ZipProcess {
+public class UnZipDialog {
     /*      0 No error
     1 Warning (Non fatal error(s)). For example, one or more files were locked by some other application, so they were not compressed.
     2 Fatal error
@@ -23,24 +23,15 @@ public class ZipProcess {
     private static final int RET_COMMAND = 7;
     private static final int RET_MEMORY = 8;
     private static final int RET_USER_STOP = 255;
-    Context context = null;
-    Thread thread = null;
-    ProgressDialog dialog = null;
-    Handler handler = null;
-    String command = null;
 
-    public ZipProcess(Context context, String command) {
-        // TODO Auto-generated method stub
-        this.context = context;
-        this.command = command;
-        dialog = new ProgressDialog(context);
+    public UnZipDialog(final Context context, final String unZipPath, final String outputPath) {
+        final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setTitle(R.string.progress_title);
         dialog.setMessage(context.getText(R.string.progress_message));
         dialog.setCancelable(false);
-        handler = new Handler(new Handler.Callback() {
+        final Handler handler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
                 int retMsgId = R.string.msg_ret_success;
                 switch (msg.what) {
@@ -65,26 +56,19 @@ public class ZipProcess {
                     default:
                         break;
                 }
-                Toast.makeText(ZipProcess.this.context, retMsgId, Toast.LENGTH_SHORT).show();
+                String string = "解压缩结果："+context.getResources().getString(retMsgId);
+                Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
-        thread = new Thread() {
+        dialog.show();
+        new Thread() {
             @Override
             public void run() {
-                // TODO Auto-generated method stub
-
-                int ret = ZipUtils.excuteCommand(ZipProcess.this.command);
-                handler.sendEmptyMessage(ret);
-                //send back return code
+                ZipUtils.ResultType resultType = ZipUtils.unzip(unZipPath, outputPath);
+                handler.sendEmptyMessage(resultType.getResult());
                 super.run();
             }
-        };
-    }
-
-    void start() {
-        dialog.show();
-        thread.start();
+        }.start();
     }
 }
-
