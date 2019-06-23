@@ -9,6 +9,17 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+
+        externalNativeBuild {
+            cmake {
+//                cppFlags "-std=c++11"
+                cppFlags ""
+            }
+        }
+
+        ndk {
+            abiFilters 'armeabi-v7a','x86','x86_64','arm64-v8a'
+        }
     }
 
     buildTypes {
@@ -17,7 +28,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+            version "3.10.2"
+        }
+    }
 }
 
 dependencies {

@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
+import com.xiaozhu.lib7zip.ZipUtils;
+
 public class ZipProcess {
     /*      0 No error
     1 Warning (Non fatal error(s)). For example, one or more files were locked by some other application, so they were not compressed.

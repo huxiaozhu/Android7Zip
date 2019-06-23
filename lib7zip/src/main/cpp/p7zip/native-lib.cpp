@@ -133,7 +133,7 @@ static bool str2args(const char* s,char argv[][ARGV_LEN_MAX],int* argc) {
 
 extern "C"
 JNIEXPORT jint JNICALL
-Java_com_huxiaozhu_a7zip_ZipUtils_excuteCommand(JNIEnv *env, jclass type, jstring command_) {
+Java_com_xiaozhu_lib7zip_ZipUtils_excuteCommand(JNIEnv *env, jclass type, jstring command_) {
     int ret = -1;
     const char* ccommand = (const char*)env->GetStringUTFChars(command_,NULL);
 

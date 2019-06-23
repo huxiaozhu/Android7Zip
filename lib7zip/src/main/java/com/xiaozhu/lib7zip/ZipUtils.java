@@ -1,4 +1,4 @@
-package com.huxiaozhu.a7zip;
+package com.xiaozhu.lib7zip;
 
 public class ZipUtils {
     static {
